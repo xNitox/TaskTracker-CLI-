@@ -1,0 +1,30 @@
+[
+  {
+    "id": 2,
+    "descripcion": "gggg",
+    "status": "Por hacer",
+    "fecha_creacion": "26/11/2025/15:41",
+    "fecha_actualizacion": "Wed, 26 Nov 2025 18:41:49 GMT"
+  },
+  {
+    "id": 4,
+    "descripcion": "Esto es un fideo",
+    "status": "Por hacer",
+    "fecha_creacion": "26/11/2025/23:0",
+    "fecha_actualizacion": "Thu, 27 Nov 2025 02:00:28 GMT"
+  },
+  {
+    "id": 5,
+    "descripcion": "JOJOJO",
+    "status": "Por hacer",
+    "fecha_creacion": "25/11/2025/23:1",
+    "fecha_actualizacion": "Thu, 27 Nov 2025 02:01:31 GMT"
+  },
+  {
+    "id": 6,
+    "descripcion": "sopaipillas",
+    "status": "Por hacer",
+    "fecha_creacion": "26/11/2025/23:2",
+    "fecha_actualizacion": "26/11/2025/23:13"
+  }
+]
