@@ -121,16 +121,6 @@ TaskTracker-CLI-/
 
 ---
 
-## 🔮 Próximas Funcionalidades
-
-- [ ] Filtrar tareas por estado
-- [ ] Búsqueda de tareas por palabra clave
-- [ ] Exportar tareas a diferentes formatos
-- [ ] Añadir prioridades a las tareas
-- [ ] Fechas de vencimiento
-
----
-
 ## 🤝 Contribuir
 
 ¡Las contribuciones son bienvenidas! Si tienes alguna idea o mejora:
