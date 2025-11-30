@@ -1,3 +1,4 @@
+
 import * as fs  from 'node:fs/promises';
 const ruta = './datos.json';
 
@@ -62,7 +63,7 @@ const actualizarYeliminarTareas = async (rl) =>{
     }
     const buscarId = tareas.find(tarea => tarea.id === ingresarID);
     if(!buscarId){
-        console.log(`No se encontr el id ${ingresarID}`)
+        console.log(`No se encontro el id ${ingresarID}`)
         return;
     }
     const pregunta = parseInt(await rl.question(`¿Que deseas hacer?
@@ -92,17 +93,110 @@ const actualizarYeliminarTareas = async (rl) =>{
         console.log("Error:",error.message)
     }
 
-}
+};
 
 const tareaEnProgresoFinalizada = async(rl) => {
-    console.log("hola");
+    try{
+        const leerArchivo = await fs.readFile(ruta,'utf-8');
+        const convertir = JSON.parse(leerArchivo);
+        const mostrarTareas = convertir.map(tareas => {
+            return{ 
+            id : tareas.id,
+            descripcion : tareas.descripcion,
+            status: tareas.status
+        };
+        });
+        console.log("===== LISTA DE TAREAS ====")
+        mostrarTareas.forEach(verTarea =>{
+            console.log(`[${verTarea.id}] ${verTarea.descripcion} ***${verTarea.status}***`)
+        });
+        const pregunta = parseInt(await rl.question("Ingrese el id de la tarea:"));
+        const filtrarTarea = convertir.find(elemento => pregunta === elemento.id);
+        if (isNaN(pregunta)){
+            console.log("Ingrese un valor numérico por favor")
+            return;
+        }else if(filtrarTarea === undefined){
+            console.log("No se encontro la tarea");
+            return;
+        };
+        console.log("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        console.log("        📋 INFORMACIÓN DE LA TAREA");
+        console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        console.log(`  ID               : ${filtrarTarea.id}`);
+        console.log(`  Descripción      : ${filtrarTarea.descripcion}`);
+        console.log(`  Estado           : ${filtrarTarea.status}`);
+        console.log(`  Creada el        : ${filtrarTarea.fecha_creacion}`);
+        console.log(`  Última actualiz. : ${filtrarTarea.fecha_actualizacion}`);
+        console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+        console.log(`
+            1- En progreso
+            2- Finalizada
+            3- Volver`);
+        const opcion = parseInt(await rl.question("¿A que status desea cambiar la tarea?"));
+        const estados = {
+            1: "En progreso",
+            2: "Finalizada"
+        };
+        
+        switch(opcion){
+            case 1:
+            case 2:
+            const fecha = new Date();
+            filtrarTarea.status = estados[opcion ];
+            filtrarTarea.fecha_actualizacion = `${fecha.getDate()}/${fecha.getMonth() + 1}/${fecha.getFullYear()}/${fecha.getHours()}:${fecha.getMinutes()}`;
+            fs.writeFile(ruta, JSON.stringify(convertir,null,2),'utf-8');
+            console.log(`Estado actualizado a ${estados[opcion]}`);
+            case 3:
+                console.log("Saliendo...");
+                break;
+            default:
+                console.log("Ingrese una opción valida");
+                return;
+        }
+    }
+    catch(error){
+        console.log("Error",error.message);
+        
+    }
+}
+
+/*
+return{
+            id : elemento.id,
+            descripcion: elemento.descripcion,
+            fecha_creacion: elemento.fecha_creacion,
+            fecha_actualizacion: elemento.fecha_actualizacion
+1- Obtener el listado de tareas
+2- Seleccionar las tareas por id
+3- Seleccionar el nuevo estado
+4- guardar
+*/
+const mostrarTareas = async(rl) => {
+    try{
+        const convertir = await fs.readFile(ruta, 'utf-8');
+        const leer = JSON.parse(convertir);
+        if(leer.length === 0){
+            console.log("No hay tareas guardadas :(")
+            return;
+        }
+        leer.forEach(t=>{
+            console.log("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+            console.log("        📋 INFORMACIÓN DE LA TAREA");
+            console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+            console.log(`  ID               : ${t.id}`);
+            console.log(`  Descripción      : ${t.descripcion}`);
+            console.log(`  Estado           : ${t.status}`);
+            console.log(`  Creada el        : ${t.fecha_creacion}`);
+            console.log(`  Última actualiz. : ${t.fecha_actualizacion}`);
+            console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+            });   
+    }
+    catch(error){
+        console.log("Error:",error.message)
+    }
 }
 /*
-1- Mostrar tareas (titulos)
-2- Seleccionar id
-3- Preguntar si actualizar o eliminar
-4- Opcion 1 agregar contenido con 1 salto de linea
-5- Opcion 2 eliminar tarea
+1- Buscar las tareas
+2- Mostrar las tareas
 */
-
-export {nuevaTarea,actualizarYeliminarTareas,tareaEnProgresoFinalizada};
+export {nuevaTarea,actualizarYeliminarTareas,tareaEnProgresoFinalizada,mostrarTareas};

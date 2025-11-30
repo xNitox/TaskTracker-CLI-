@@ -1,5 +1,5 @@
 
-import {nuevaTarea,actualizarYeliminarTareas, tareaEnProgresoFinalizada} from "./tareas.js";
+import {nuevaTarea,actualizarYeliminarTareas, tareaEnProgresoFinalizada,mostrarTareas} from "./tareas.js";
 import readline from 'node:readline/promises';
 import {stdin as input, stdout as output} from 'node:process';
 const rl = readline.createInterface({input,output});
@@ -30,7 +30,7 @@ let menu = `
             await tareaEnProgresoFinalizada(rl); 
             break;
         case 4:
-            console.log("⚠️ Función en desarrollo");
+            await mostrarTareas(rl);
             break;
         case 5:
             console.log("⚠️ Función en desarrollo");
